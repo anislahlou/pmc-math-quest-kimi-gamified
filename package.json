@@ -1,0 +1,13 @@
+{
+  "name": "pmc-math-quest-kimi-gamified",
+  "version": "2.0.0",
+  "description": "PMC Math Quest v2 — Kimi gamified rebuild: animated story intros, adaptive practice, procedural generators, XP/badges/streaks",
+  "scripts": {
+    "dev": "node server.mjs",
+    "smoke": "node test/smoke.mjs",
+    "test": "node test/smoke.mjs && node test/integration.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}
