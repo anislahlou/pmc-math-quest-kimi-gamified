@@ -215,7 +215,7 @@
     p.correctInput = p.answerType === "choice" ? { choice: String(expected) } : { value: String(expected) };
     p.choices = p.answerType === "choice" ? triangularChoice([expected, a + 2 * b, 2 * a + b, a + b], expected, variantIndex) : [];
     p.hint1 = "In an isosceles triangle, two sides are equal.";
-    p.hint2 = `The repeated side must be ${repeated} cm because ${small} + ${small} ${2 * small > big ? ">" : "="} ${big}.`;
+    p.hint2 = `The repeated side must be ${repeated} cm because ${small} + ${small} ${2 * small > big ? ">" : "≤"} ${big}.`;
     p.solution = `The equal sides are ${repeated} cm and ${repeated} cm, with base ${base} cm. Perimeter = ${repeated} + ${repeated} + ${base} = ${expected} cm.`;
     p.visual = { type: "isoscelesChoice", values: [a, b], equal: repeated, base };
     return p;
@@ -259,7 +259,7 @@
       { leftHyp: 13, leftBase: 5, rightHyp: 15, ask: "area", expected: 84 },
       { leftHyp: 15, leftBase: 9, rightBase: 16, ask: "perimeter", expected: 60 },
       { leftHyp: 30, leftBase: 18, rightHyp: 40, ask: "rightBase", expected: 32 },
-      { leftBase: 3, height: 4, rightHyp: 13, ask: "rightBase", expected: 12 }
+      { leftBase: 6, height: 8, rightHyp: 17, ask: "rightBase", expected: 15 }
     ];
     const data = cases[variantIndex % cases.length];
     const height = data.height ?? Math.sqrt(data.leftHyp ** 2 - data.leftBase ** 2);
@@ -319,7 +319,7 @@
       { area: 48, base: 12, height: 8, equal: 10, expected: 32 },
       { area: 60, base: 10, height: 12, equal: 13, expected: 36 },
       { area: 120, base: 16, height: 15, equal: 17, expected: 50 },
-      { area: 84, base: 14, height: 12, equal: 13, expected: 40 }
+      { area: 168, base: 14, height: 24, equal: 25, expected: 64 }
     ];
     const data = cases[variantIndex % cases.length];
     const p = problemBase("area-to-perimeter", variantIndex, variantIndex % 2 ? "choice" : "filled");
@@ -339,8 +339,8 @@
     const sequences = [
       [2, 3, 4, 5, 6, 7, 8],
       [1, 2, 3, 4, 5, 6],
-      [3, 4, 5, 6, 7, 8],
-      [4, 5, 6, 7, 8]
+      [1, 2, 3, 4, 5, 6, 7],
+      [3, 4, 5, 6, 7, 8, 9]
     ];
     const moves = sequences[variantIndex % sequences.length];
     const x = moves.filter((_, index) => index % 2 === 0).reduce((a, b) => a + b, 0);

@@ -17,6 +17,8 @@ opening `index.html` from the filesystem will not load classic missions.
 
 ```bash
 npm run smoke          # generator math, store logic, legacy adapter contract
+node test/math_audit.mjs  # sweeps 5,400+ generated problems: sqrt/equality claims, choice integrity, exact geometry
+npm test               # smoke + math audit + integration (jsdom UI flow)
 ```
 
 ## What's inside

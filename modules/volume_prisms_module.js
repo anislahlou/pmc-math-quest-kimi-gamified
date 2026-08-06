@@ -584,8 +584,8 @@
       [18, 8, 12, 6, 3, 8],
       [16, 10, 7, 5, 5, 4],
       [20, 9, 11, 6, 5, 6],
-      [13, 12, 10, 4, 6, 5],
-      [22, 10, 9, 5, 4, 8]
+      [15, 10, 10, 4, 6, 5],
+      [20, 10, 9, 5, 4, 8]
     ];
     const [tankL, tankW, tankH, blockL, blockW, blockH] = pick(sets, variantIndex);
     const baseArea = tankL * tankW;
@@ -612,8 +612,8 @@
       [120, 9, 30, 25, 20],
       [150, 12, 25, 30, 24],
       [88, 9, 22, 21, 20],
-      [140, 11, 20, 28, 24],
-      [180, 10, 45, 26, 22],
+      [140, 18, 20, 28, 24],
+      [180, 12, 45, 26, 22],
       [160, 13, 30, 32, 28]
     ];
     const [containerBaseArea, startHeight, blockBaseArea, blockHeight, tankHeight] = pick(sets, variantIndex);
