@@ -1,5 +1,9 @@
 /* Shared mission manifest for hub + player. Derived from modules/registry.json. */
 window.MANIFEST = [
+  { id: "rational_numbers", title: "Rational Numbers & Number Line", chapter: "G1 Lesson 1", difficulty: 2,
+    blurb: "Meet positive and negative numbers, sort rationals from impostors like π, read the number line, hop along it, mirror numbers around zero, and tame absolute value.",
+    skills: ["Sign sense", "Rational detective", "Line reader", "Line moves", "Mirror numbers", "Absolute value"],
+    emoji: "🌡️", color: "#e8a20c" },
   { id: "train_problems", title: "Train Problems", chapter: "Lesson 22", difficulty: 4, enhanced: true,
     blurb: "Use train length, bridge length, speed and time to solve how a train passes poles, bridges, tunnels and two-bridge puzzles.",
     skills: ["Pass the marker", "Clear the bridge", "Bridge speed", "Find the train", "Two-bridge solve", "Double-speed crossing"],

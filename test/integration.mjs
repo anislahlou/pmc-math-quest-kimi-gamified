@@ -52,7 +52,7 @@ console.log("1. hub page");
   window.eval(readFileSync(join(root, "assets/hub.js"), "utf8"));
   await sleep(50);
   const cards = window.document.querySelectorAll(".mission-card");
-  ok(cards.length === 15, `hub shows 15 mission cards, got ${cards.length}`);
+  ok(cards.length === 16, `hub shows 16 mission cards, got ${cards.length}`);
   ok(window.document.querySelectorAll(".badge").length === window.Engine.BADGES.length, "badge shelf renders all badges");
   ok(window.document.getElementById("daily-title").textContent.length > 0, "daily quest card populated");
   ok(window.document.getElementById("xp-fill").style.width !== "", "xp bar has width");
@@ -175,7 +175,7 @@ console.log("2. enhanced Train Problems module");
   window.close();
 }
 
-/* ================= 3. legacy adapter (all 13) ================= */
+/* ================= 3. legacy adapter (all 14) ================= */
 console.log("3. legacy adapter end-to-end (all classic modules)");
 const MANIFEST = JSON.parse(readFileSync(join(root, "modules/registry.json"), "utf8")).modules;
 const legacyIds = ["angles", "consecutive_number_triangles", "volume_prisms", "volume_problem_extension", "triangle_sides", "equal_height_triangles", "algebraic_word_puzzles", "addition_multiplication_2", "calculating_with_formulas", "prime_factorisation_2", "inequalities", "circles_sectors_2", "u2t2_units"];
@@ -231,5 +231,5 @@ if (failures) {
   console.error(`INTEGRATION FAILED: ${failures} problem(s)`);
   process.exit(1);
 } else {
-  console.log("INTEGRATION PASSED — hub, flagship module and all 13 legacy adapters work end-to-end 🎉");
+  console.log("INTEGRATION PASSED — hub, flagship module and all 14 legacy adapters work end-to-end 🎉");
 }

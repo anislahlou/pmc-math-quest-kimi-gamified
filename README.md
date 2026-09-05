@@ -17,7 +17,7 @@ opening `index.html` from the filesystem will not load classic missions.
 
 ```bash
 npm run smoke          # generator math, store logic, legacy adapter contract
-node test/math_audit.mjs  # sweeps 5,400+ generated problems: sqrt/equality claims, choice integrity, exact geometry
+node test/math_audit.mjs  # sweeps 5,700+ generated problems: sqrt/equality claims, choice integrity, exact geometry
 npm test               # smoke + math audit + integration (jsdom UI flow)
 ```
 
@@ -30,7 +30,7 @@ npm test               # smoke + math audit + integration (jsdom UI flow)
 | Mission map | `index.html` + `assets/hub.js` | Gamified hub: level ring, XP bar, daily quest card, badge shelf, per-mission mastery dots. |
 | Module player | `module.html` + `assets/player.js` | One shell for every mission: animated intro + adaptive training (retry-until-mastery, hint ladder, coach cards, recap routing weak skills into focus drills). |
 | Train Problems v2 | `assets/train_v2.js` | Enhanced flagship: 7-scene animated story intro with in-video checks, procedural integer-clean generators, misconception-tagged distractors with coach cards, "Watch it" animated replay, "Build it" guided steps, Pip's Mistakes (spot-the-error) and Depot Master (hearts) modes. |
-| Legacy modules | `modules/*.js` | The 13 classic missions from the original app, loaded through the adapter into the new shell. |
+| Legacy modules | `modules/*.js` | The 13 classic missions from the original app, plus the new Rational Numbers & Number Line mission (G1 Lesson 1, built from the G1M study book), loaded through the adapter into the new shell. |
 | Manifest | `assets/manifest.js` | Mission metadata (from the original `modules/registry.json`). |
 
 ## Deploying to GitHub Pages

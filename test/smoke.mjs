@@ -61,7 +61,7 @@ const T = globalThis.TrainV2;
 const M = globalThis.MANIFEST;
 
 console.log("1. manifest & scenes");
-ok(Array.isArray(M) && M.length === 15, `manifest should list 15 missions, got ${M && M.length}`);
+ok(Array.isArray(M) && M.length === 16, `manifest should list 16 missions, got ${M && M.length}`);
 ok(M.every((m) => m.id && m.title && m.skills.length >= 4), "every mission needs id/title/>=4 skills");
 ok(T.scenes.length === 7, `train intro should have 7 scenes, got ${T.scenes.length}`);
 ok(T.scenes.every((s) => s.say.split(" ").length >= 25), "every scene voiceover >= 25 words");
@@ -119,7 +119,7 @@ ok(q && q.moduleId && M.some((m) => m.id === q.moduleId), "daily quest resolves 
 
 console.log("4. legacy adapter contract (all classic modules)");
 const legacyFiles = readdirSync(join(root, "modules")).filter((f) => f.endsWith("_module.js"));
-ok(legacyFiles.length === 13, `expected 13 legacy module files, found ${legacyFiles.length}`);
+ok(legacyFiles.length === 14, `expected 14 legacy module files, found ${legacyFiles.length}`);
 for (const f of legacyFiles) {
   const code = readFileSync(join(root, "modules", f), "utf8");
   const box = { exports: {} };
