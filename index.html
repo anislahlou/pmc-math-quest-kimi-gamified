@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PMC Math Quest — Mission Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/engine.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">🚂</span>
+          <span>PMC Math Quest</span>
+        </a>
+        <div class="top-stats" id="top-stats"></div>
+      </header>
+
+      <section class="hero">
+        <div class="panel hero-main">
+          <span class="eyebrow">Welcome back, explorer</span>
+          <h1 class="big-title" id="hero-title">Ready for today's quest?</h1>
+          <p class="sub-copy">Watch a story, train your skills, earn stars. Every mission you master levels you up.</p>
+          <div class="xpbar"><span id="xp-fill"></span></div>
+          <div class="xpbar-label"><span id="xp-level-label"></span><span id="xp-next-label"></span></div>
+          <div class="mascot-float" id="hero-mascot"></div>
+        </div>
+        <div class="panel quest-card">
+          <span class="eyebrow">Daily quest</span>
+          <h2 id="daily-title" style="font-size:1.2rem"></h2>
+          <p class="muted" id="daily-desc"></p>
+          <div class="xpbar"><span id="daily-fill"></span></div>
+          <button class="btn coral" id="daily-go" type="button">Go to today's quest →</button>
+        </div>
+      </section>
+
+      <div class="section-head">
+        <h2>🏅 Badge shelf</h2>
+        <span class="muted" id="badge-count"></span>
+      </div>
+      <div class="badge-shelf" id="badge-shelf"></div>
+
+      <div class="section-head">
+        <h2>🗺️ Choose your mission</h2>
+        <span class="muted" id="mission-summary"></span>
+      </div>
+      <div class="mission-grid" id="mission-grid"></div>
+
+      <footer class="mt24 center muted" style="font-size:.88rem">
+        <p>PMC Math Quest v2 · Watch → Train → Master · Your progress is saved on this device.</p>
+      </footer>
+    </main>
+    <script src="assets/engine.js"></script>
+    <script src="assets/manifest.js"></script>
+    <script src="assets/hub.js"></script>
+  </body>
+</html>
