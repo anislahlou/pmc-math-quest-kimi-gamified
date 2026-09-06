@@ -408,7 +408,12 @@
         this.voiceOn = !this.voiceOn;
         e.target.textContent = this.voiceOn ? "🔊 Voice on" : "🔇 Voice off";
         if (!this.voiceOn) this._stopSpeech();
-        else if (this.playing) this._speak();
+        else {
+          // Turning voice back on also lifts a global mute — otherwise
+          // the button looks on but everything stays silent.
+          if (state.muted) { state.muted = false; save(); }
+          if (this.playing) this._speak();
+        }
       });
     }
     scene() { return this.o.scenes[this.i]; }
@@ -446,18 +451,69 @@
       }
     }
     _stopSpeech() {
+      this._speechGen = (this._speechGen || 0) + 1; // invalidate pending chains
+      if (this._speechTimer) { clearTimeout(this._speechTimer); this._speechTimer = null; }
+      if (this._resumePump) { clearInterval(this._resumePump); this._resumePump = null; }
       try { speechSynthesis.cancel(); } catch { /* no speech */ }
+    }
+    _pickVoice() {
+      const all = speechSynthesis.getVoices().filter((v) => /^en/i.test(v.lang || ""));
+      const good = (v) => /natural|online|neural|aria|jenny|sonia|samantha|karen|moira/i.test(v.name);
+      const brand = (v) => /google|microsoft|apple/i.test(v.name);
+      // Local voices are far more reliable than network voices on long texts.
+      return all.find((v) => v.localService && good(v)) || all.find((v) => v.localService && brand(v))
+        || all.find(good) || all.find(brand) || all[0] || null;
     }
     _speak() {
       this._stopSpeech();
       if (!this.voiceOn || state.muted) return;
       if (!("speechSynthesis" in window)) return;
-      const u = new SpeechSynthesisUtterance(this.scene().say);
-      const voices = speechSynthesis.getVoices().filter((v) => /^en/i.test(v.lang || ""));
-      u.voice = voices.find((v) => /natural|online|neural|aria|jenny|sonia|samantha|karen|moira/i.test(v.name))
-        || voices.find((v) => /google|microsoft|apple/i.test(v.name)) || voices[0] || null;
-      u.rate = 0.96; u.pitch = 1.08;
-      speechSynthesis.speak(u);
+      const text = String(this.scene().say || "").trim();
+      if (!text) return;
+      const gen = this._speechGen;
+      const voice = this._pickVoice();
+      // Speak sentence-by-sentence: one long utterance stalls Chrome's queue
+      // and network voices give up after ~15s — short chained chunks survive.
+      const parts = text.match(/[^.!?]+[.!?]+/g) || [text];
+      // cancel() followed instantly by speak() can deadlock Chrome — breathe first.
+      this._speechTimer = setTimeout(() => {
+        this._speechTimer = null;
+        if (gen !== this._speechGen) return;
+        let k = 0;
+        const next = () => {
+          if (gen !== this._speechGen) return;
+          if (k >= parts.length) {
+            if (this._resumePump) { clearInterval(this._resumePump); this._resumePump = null; }
+            return;
+          }
+          const chunk = parts[k++].trim();
+          let started = false;
+          const launch = () => {
+            const u = new SpeechSynthesisUtterance(chunk);
+            if (voice) u.voice = voice;
+            u.rate = 0.96; u.pitch = 1.08;
+            u.onstart = () => { started = true; };
+            u.onend = () => { if (gen === this._speechGen) next(); };
+            u.onerror = () => { if (gen === this._speechGen) next(); }; // skip broken chunk
+            speechSynthesis.speak(u);
+          };
+          launch();
+          // Watchdog: if the queue swallowed the chunk, kick it once.
+          setTimeout(() => {
+            if (gen !== this._speechGen || started) return;
+            try {
+              if (speechSynthesis.paused) speechSynthesis.resume();
+              if (!speechSynthesis.speaking && !speechSynthesis.pending) { speechSynthesis.cancel(); launch(); }
+            } catch { /* give up on this chunk */ }
+          }, 800);
+        };
+        next();
+        // Chrome desktop silently pauses long speech sessions — keep it pumped.
+        this._resumePump = setInterval(() => {
+          if (gen !== this._speechGen) { clearInterval(this._resumePump); this._resumePump = null; return; }
+          try { if (speechSynthesis.speaking) speechSynthesis.resume(); } catch { /* noop */ }
+        }, 4000);
+      }, 90);
     }
     toggle() { this.playing ? this.pause() : this.play(); }
     play() {

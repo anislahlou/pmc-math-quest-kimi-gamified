@@ -595,6 +595,7 @@
       purpose: "Meet positive and negative numbers as two sides of zero.",
       classicId: "sign-sense",
       caption: "Above zero is positive, below zero is negative — and zero itself is neither.",
+      durationMs: 24500,
       voiceover: "What is colder than zero? Today Pip stands next to a giant thermometer and discovers that numbers can dive below zero: frosty temperatures, divers under the sea, and money you owe all live on the negative side, while above zero everything is positive. Zero itself is the quiet boundary — neither positive nor negative."
     },
     {
@@ -602,6 +603,7 @@
       purpose: "Know exactly which numbers count as rational — and which are impostors.",
       classicId: "rational-detective",
       caption: "Integers, fractions, and decimals that stop or repeat: welcome to the club. π stays outside.",
+      durationMs: 24500,
       voiceover: "Some numbers belong to a big friendly club called the rationals: every integer, every fraction, and decimals that stop or repeat forever. But watch out for impostors! Pi and strange decimals that never repeat and never stop cannot join, because a rational number can always be written as one integer over another."
     },
     {
@@ -609,6 +611,7 @@
       purpose: "See every rational number owning an address on the number line.",
       classicId: "line-reader",
       caption: "Left is less, right is more — comparing numbers becomes reading a map.",
+      durationMs: 22500,
       voiceover: "Imagine a road that runs forever in both directions. Every rational number owns an address on it: integers, halves, thirds, even tricky decimals. The golden rule of the road: a number on the left is always less than a number on the right, so comparing numbers becomes as easy as reading a map."
     },
     {
@@ -616,6 +619,7 @@
       purpose: "Turn right and left moves into adding and subtracting.",
       classicId: "line-moves",
       caption: "Hop right to add, hop left to subtract — then count the integers between two fences.",
+      durationMs: 20500,
       voiceover: "Pip the grasshopper loves the number road. Every hop to the right adds, and every hop to the left subtracts. Chain the hops carefully and you can land exactly where you want — or work backwards from where Pip landed to figure out where his journey secretly began."
     },
     {
@@ -623,6 +627,7 @@
       purpose: "Additive inverses as mirror twins around zero, summing to zero.",
       classicId: "inverse-mirror",
       caption: "Same distance, opposite side: mirror twins always add to zero.",
+      durationMs: 19500,
       voiceover: "Every number has a mirror twin on the other side of zero, exactly the same distance away. These twins are called additive inverses, and together they always add to zero. Beware the double negative: the mirror of the mirror brings you right back home."
     },
     {
@@ -630,6 +635,7 @@
       purpose: "Absolute value as distance from zero — and the two-answer trap.",
       classicId: "absolute-value",
       caption: "Distance is never negative — so |x| = 5 has two hiding places, not one.",
+      durationMs: 20500,
       voiceover: "How far is negative seven from zero? Exactly seven steps. Distance never comes with a minus sign, and that is the whole idea of absolute value. It also explains a famous trap: when the absolute value of x equals five, x has two possible hiding places, not one."
     }
   ];
