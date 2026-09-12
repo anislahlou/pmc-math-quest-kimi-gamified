@@ -610,6 +610,7 @@
 
   const MODULE_FILES = {
     rational_numbers: "rational_numbers_module.js",
+    rational_add_sub: "rational_add_sub_module.js",
     consecutive_number_triangles: "consecutive_triangles_module.js",
     angles: "angles_module.js",
     u2t2_units: "u2t2_module.js",
