@@ -393,6 +393,7 @@
           <button class="btn ghost slim" data-a="next" type="button">Next →</button>
           <button class="btn ghost slim" data-a="replay" type="button">↺ Replay scene</button>
           <button class="btn ghost slim" data-a="voice" type="button">🔊 Voice on</button>
+          <button class="btn ghost slim" data-a="test" type="button">🗣 Test voice</button>
         </div>
         <div class="scene-track"></div>`;
       this.svg = o.root.querySelector("svg");
@@ -415,6 +416,12 @@
           if (this.playing) this._speak();
         }
       });
+      o.root.querySelector('[data-a="test"]').addEventListener("click", () => this._testVoice());
+      // Tap the "video" itself to play/pause — what kids instinctively do.
+      const stage = o.root.querySelector(".stage-wrap");
+      stage.style.cursor = "pointer";
+      stage.title = "Tap to play / pause";
+      stage.addEventListener("click", () => this.toggle());
     }
     scene() { return this.o.scenes[this.i]; }
     _renderTrack() {
@@ -488,22 +495,30 @@
           }
           const chunk = parts[k++].trim();
           let started = false;
-          const launch = () => {
+          let fellBack = false;
+          const launch = (useDefault) => {
             const u = new SpeechSynthesisUtterance(chunk);
-            if (voice) u.voice = voice;
+            if (voice && !useDefault) u.voice = voice;
             u.rate = 0.96; u.pitch = 1.08;
             u.onstart = () => { started = true; };
-            u.onend = () => { if (gen === this._speechGen) next(); };
-            u.onerror = () => { if (gen === this._speechGen) next(); }; // skip broken chunk
+            // Utterance ended/errored without ever starting: the picked voice
+            // is broken on this browser/device — retry once with no explicit
+            // voice (system default) before giving up on the chunk.
+            const dead = () => {
+              if (!started && !fellBack) { fellBack = true; launch(true); return true; }
+              return false;
+            };
+            u.onend = () => { if (gen === this._speechGen && !dead()) next(); };
+            u.onerror = () => { if (gen === this._speechGen && !dead()) next(); };
             speechSynthesis.speak(u);
           };
-          launch();
+          launch(false);
           // Watchdog: if the queue swallowed the chunk, kick it once.
           setTimeout(() => {
             if (gen !== this._speechGen || started) return;
             try {
               if (speechSynthesis.paused) speechSynthesis.resume();
-              if (!speechSynthesis.speaking && !speechSynthesis.pending) { speechSynthesis.cancel(); launch(); }
+              if (!speechSynthesis.speaking && !speechSynthesis.pending) { speechSynthesis.cancel(); launch(fellBack); }
             } catch { /* give up on this chunk */ }
           }, 800);
         };
@@ -515,8 +530,29 @@
         }, 4000);
       }, 90);
     }
+    _testVoice() {
+      if (this.playing) this.pause();
+      if (!("speechSynthesis" in window)) { toast("🚫 Speech is not supported in this browser."); return; }
+      if (state.muted) { state.muted = false; save(); }
+      try { speechSynthesis.cancel(); } catch { /* noop */ }
+      const voice = this._pickVoice();
+      const sayIt = (useDefault) => {
+        const u = new SpeechSynthesisUtterance("Voice is working! Press play to hear the lesson.");
+        if (voice && !useDefault) u.voice = voice;
+        u.rate = 0.96; u.pitch = 1.08;
+        let started = false;
+        u.onstart = () => { started = true; };
+        u.onend = () => { if (!started && !useDefault) sayIt(true); };
+        u.onerror = () => { if (!started && !useDefault) sayIt(true); };
+        speechSynthesis.speak(u);
+      };
+      sayIt(false);
+      toast("🗣 Speaking a test sentence — if you hear nothing, check your device volume and that the browser tab isn't muted.");
+    }
     toggle() { this.playing ? this.pause() : this.play(); }
     play() {
+      // Pressing ▶ is an unambiguous "I want to hear this" — lift a stuck mute.
+      if (state.muted) { state.muted = false; save(); }
       this.playing = true;
       this._syncPlayBtn();
       this._speak();
