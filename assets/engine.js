@@ -648,6 +648,7 @@
     rational_numbers: "rational_numbers_module.js",
     rational_add_sub: "rational_add_sub_module.js",
     rational_mult_div: "rational_mult_div_module.js",
+    rational_powers: "rational_powers_module.js",
     consecutive_number_triangles: "consecutive_triangles_module.js",
     angles: "angles_module.js",
     u2t2_units: "u2t2_module.js",
